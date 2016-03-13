@@ -8,6 +8,9 @@ public class UMACharacterCustomization : MonoBehaviour
 {	
 	public UMAData umaData;
     public GameObject myUma;
+	public string charname = "";
+	public Text charnameText;
+
 	private UMADnaHumanoid umaDna;
 	private UMACrowd crowdHandle;
 
@@ -133,9 +136,16 @@ public class UMACharacterCustomization : MonoBehaviour
 		}
 	}
 
-    public void ButtonCreate()
+	public void NameChange()
+	{
+		charname = charnameText.text;
+	}
+
+	public void ButtonCreate()
     {
-        Avatar.Utilities.SavePlayerAvatar(myUma.transform.GetComponent<UMADynamicAvatar>(), "Joe");
+		if (charname != "") {
+			Avatar.Utilities.SavePlayerAvatar (myUma.transform.GetComponent<UMADynamicAvatar> (), charname);
+		}
     }
     
     public void ButtonLoad()
