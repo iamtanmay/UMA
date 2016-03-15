@@ -6,6 +6,7 @@ using UMA;
 
 public class UMACharacterCustomization : MonoBehaviour 
 {	
+	public bool debugmode = true;
 	public UMAData umaData;
     public GameObject myUma;
 	public string charname = "";
@@ -138,19 +139,25 @@ public class UMACharacterCustomization : MonoBehaviour
 
 	public void NameChange()
 	{
-		charname = charnameText.text;
+		//charname = charnameText.text;
 	}
 
 	public void ButtonCreate()
     {
+		charname = charnameText.text;
 		if (charname != "") {
 			Avatar.Utilities.SavePlayerAvatar (myUma.transform.GetComponent<UMADynamicAvatar> (), charname);
+			Debug.Log("Create character config " + charname);
+			WorldUtilities.WorldUtilities.SaveConfiguration(new string[]{"Current Character"}, new string[]{charname}, "Character", debugmode);
 		}
     }
     
     public void ButtonLoad()
-    {
-        Avatar.Utilities.LoadPlayerAvatar(myUma.transform, "Joe");
+	{
+		Debug.Log("Load character config " + charname);
+		Dictionary<string, string> tdic = WorldUtilities.WorldUtilities.LoadConfiguration("Character", debugmode);
+		string tcharname = tdic ["Current Character"];
+		Avatar.Utilities.LoadPlayerAvatar(myUma.transform, tcharname);
     }
 
     public void ButtonMale()

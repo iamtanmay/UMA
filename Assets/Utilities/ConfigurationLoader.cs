@@ -8,21 +8,35 @@ using UnityEngine.Events;
 
 namespace WorldUtilities
 {
-    public static class ConfigurationLoader
+	public static class WorldUtilities
     {
         public static string ConfigPath = Application.dataPath + "\\Internal\\Config\\";
 
-		public static void SaveConfiguration(Dictionary<string, string> iconfig, string iID)
+		public static void SaveConfiguration(string[] ikeys, string[] ivals, string iID, bool debugmode)
+		{
+			Dictionary<string, string> tdic = new Dictionary<string, string> ();
+			for (int i=0; i<ikeys.Length; i++) {
+				tdic.Add(ikeys[i], ivals[i]);
+			}
+			SaveConfiguration (tdic, iID, debugmode);
+		}
+
+		public static void SaveConfiguration(List<string> ikeys, List<string> ivals, string iID, bool debugmode)
+		{
+			SaveConfiguration (ikeys.ToArray (), ivals.ToArray (), iID, debugmode);
+		}
+
+		public static void SaveConfiguration(Dictionary<string, string> iconfig, string iID, bool debugmode)
         {
-            SaveConfigurationInternal(iconfig, ConfigPath + iID);
+			SaveConfigurationInternal(iconfig, ConfigPath + iID, debugmode);
         }
 
-		public static Dictionary<string, string> LoadConfiguration(string iID)
+		public static Dictionary<string, string> LoadConfiguration(string iID, bool debugmode)
         {
-            return LoadConfigurationInternal(ConfigPath + iID);
+			return LoadConfigurationInternal(ConfigPath + iID, debugmode);
         }
 
-		static void SaveConfigurationInternal(Dictionary<string, string> iconfig, string path)
+		static void SaveConfigurationInternal(Dictionary<string, string> iconfig, string path, bool debugmode)
         {
             string ttext = "";
             foreach (KeyValuePair<string, string> tentry in iconfig)
@@ -31,11 +45,14 @@ namespace WorldUtilities
                 ttext = ttext + tstr + "\r\n";
             }
 
+			if (debugmode)
+				Debug.Log ("Saving configuration to " + path);
+
             byte[] tbytes = GetBytes(ttext);
             File.WriteAllBytes(path, tbytes);
         }
 
-		static Dictionary<string, string> LoadConfigurationInternal(string path)
+		static Dictionary<string, string> LoadConfigurationInternal(string path, bool debugmode)
         {
             Dictionary<string, string> tconfig = new Dictionary<string,string>();
             byte[] tbytes = File.ReadAllBytes(path);
