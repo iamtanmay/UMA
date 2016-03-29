@@ -151,11 +151,17 @@ namespace UMA
 		/// <param name="controller">Animation controller.</param>
 		public static Animator CreateAnimator(UMAData umaData, UmaTPose umaTPose, RuntimeAnimatorController controller)
 		{
-			var animator = umaData.gameObject.AddComponent<Animator>();
+
+			var animator = umaData.gameObject.GetComponent<Animator>();
+
+			if (animator == null)
+				animator = umaData.gameObject.AddComponent<Animator>();
+
 			switch (umaData.umaRecipe.raceData.umaTarget)
 			{
 				case RaceData.UMATarget.Humanoid:
 					umaTPose.DeSerialize();
+				Vector3	 tvec3 = animator.angularVelocity;
 					animator.avatar = CreateAvatar(umaData, umaTPose);
 					break;
 				case RaceData.UMATarget.Generic:

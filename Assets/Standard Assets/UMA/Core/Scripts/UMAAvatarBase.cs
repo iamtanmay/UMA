@@ -101,7 +101,6 @@ public abstract class UMAAvatarBase : MonoBehaviour {
 
 		umaRecipe.Load(umaData.umaRecipe, context);
 		umaData.AddAdditionalRecipes(umaAdditionalRecipes, context);
-
 		if (umaRace != umaData.umaRecipe.raceData)
 		{
 			UpdateNewRace();
@@ -110,6 +109,7 @@ public abstract class UMAAvatarBase : MonoBehaviour {
 		{
 			UpdateSameRace();
 		}
+		//umaData.umaGenerator.UpdateAvatar (umaData);
 		Profiler.EndSample();
 	}
 

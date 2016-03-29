@@ -39,8 +39,8 @@ namespace UMA
 		{
 			this.asset = asset;
 #if !UMA2_LEAN_AND_CLEAN 
-			slotName = asset.slotName;
-			materialSample = asset.materialSample;
+			//slotName = asset.slotName;
+			//materialSample = asset.materialSample;
 #endif
 			overlayScale = asset.overlayScale;
 		}
